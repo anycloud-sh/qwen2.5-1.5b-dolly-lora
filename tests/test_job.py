@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from spot_finetune.job import (
+from dolly_lora.job import (
     IGNORE_INDEX,
     JobConfig,
     batch_indices,

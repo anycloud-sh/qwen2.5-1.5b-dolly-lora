@@ -1,8 +1,11 @@
-# AnyCloud Spot Fine-Tune
+# Qwen2.5-1.5B Dolly LoRA
 
-Fine-tune a LoRA adapter on a spot GPU through AnyCloud, and keep going when the cloud takes the
-GPU back. The whole run is one AnyCloud Job. If the spot VM is interrupted, AnyCloud starts a
-replacement, restores the latest checkpoint, and the same command picks up where it stopped.
+AnyCloud-powered LoRA fine-tune of
+[`Qwen/Qwen2.5-1.5B-Instruct`](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) on
+[Databricks Dolly 15k](https://huggingface.co/datasets/databricks/databricks-dolly-15k), run as one
+AnyCloud Job that resumes after interruptions. It runs on on-demand or spot GPUs. On spot, if the
+cloud takes the VM back, AnyCloud starts a replacement, restores the latest checkpoint, and the same
+command picks up where it stopped.
 
 ## How it works
 
@@ -42,7 +45,7 @@ different bucket names.
 python validation/prepare_dolly.py ./input
 aws s3 cp --recursive ./input s3://YOUR-INPUT-BUCKET/
 
-anycloud job ghcr.io/anycloud-sh/anycloud-spot-finetune@sha256:DIGEST \
+anycloud job ghcr.io/anycloud-sh/qwen2.5-1.5b-dolly-lora@sha256:DIGEST \
   --spot --credentials YOUR-AWS-CREDENTIALS --vm-type g5.xlarge --gpus all --disk-size 100 \
   --input-bucket YOUR-INPUT-BUCKET \
   --output-bucket YOUR-OUTPUT-BUCKET \

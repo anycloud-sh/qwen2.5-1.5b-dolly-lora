@@ -1,7 +1,7 @@
-"""Run one LoRA fine-tune as an AnyCloud spot Job, resuming from ``/mnt/checkpoint``.
+"""Run one LoRA fine-tune as an AnyCloud Job, resuming from ``/mnt/checkpoint``.
 
 AnyCloud copies ``/mnt/checkpoint`` to the Job's checkpoint bucket about every 60 seconds and
-restores it before a replacement container starts after a spot interruption. This entrypoint only
+restores it before a replacement container starts after an interruption. This entrypoint only
 has to keep one complete ``state.pt`` there and resume from it when it exists.
 """
 
@@ -27,7 +27,7 @@ from peft import LoraConfig, PeftModel, get_peft_model, get_peft_model_state_dic
 from peft import set_peft_model_state_dict as set_adapter_state
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from spot_finetune.job import (
+from dolly_lora.job import (
     IGNORE_INDEX,
     STATE_FILE,
     JobConfig,
@@ -39,7 +39,7 @@ from spot_finetune.job import (
     write_atomically,
 )
 
-_log = logging.getLogger("spot_finetune")
+_log = logging.getLogger("dolly_lora")
 
 
 class CausalModel(Protocol):
@@ -256,7 +256,7 @@ def _export_and_verify(
         trained_loss = _loss(model, probe, pad_id, device).item()
     paths.output_dir.mkdir(parents=True, exist_ok=True)
     archive = paths.output_dir / "adapter.tar.gz"
-    with tempfile.TemporaryDirectory(prefix="spot-finetune-") as directory:
+    with tempfile.TemporaryDirectory(prefix="dolly-lora-") as directory:
         adapter_dir = Path(directory) / "adapter"
         model.save_pretrained(adapter_dir, safe_serialization=True)
 

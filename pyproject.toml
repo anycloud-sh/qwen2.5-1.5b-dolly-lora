@@ -3,9 +3,9 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
-name = "anycloud-spot-finetune"
+name = "qwen2.5-1.5b-dolly-lora"
 version = "0.1.0"
-description = "LoRA fine-tuning that survives spot interruptions, run as one AnyCloud Job."
+description = "AnyCloud-powered LoRA fine-tune of Qwen2.5-1.5B-Instruct on Dolly 15k that resumes after interruptions."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
@@ -24,7 +24,7 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/spot_finetune"]
+packages = ["src/dolly_lora"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

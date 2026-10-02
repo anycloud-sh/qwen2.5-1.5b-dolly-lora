@@ -10,8 +10,8 @@ import pytest
 import torch
 from transformers import LlamaConfig, LlamaForCausalLM
 
-from spot_finetune import train
-from spot_finetune.job import JobConfig
+from dolly_lora import train
+from dolly_lora.job import JobConfig
 from tests.test_job import CharTokenizer
 
 
