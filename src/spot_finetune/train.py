@@ -261,7 +261,8 @@ def _export_and_verify(
         model.save_pretrained(adapter_dir, safe_serialization=True)
 
         def write_archive(path: Path) -> None:
-            with tarfile.open(path, "w:gz") as tar:
+            # The fastest gzip level: adapter weights barely compress, and level 9 takes minutes.
+            with tarfile.open(path, "w:gz", compresslevel=1) as tar:
                 tar.add(adapter_dir, arcname="adapter")
 
         write_atomically(archive, write_archive)
