@@ -35,6 +35,23 @@ interrupted run would have used. At the end, the job exports the PEFT adapter to
 the same loss on a probe batch, and writes `/mnt/output/result.json`. The process exits 0 only
 after that check passes.
 
+## Validation on an interrupted AWS spot GPU
+
+On 2026-10-02 the published image ran as one spot Job on an AWS `g5.xlarge` (NVIDIA A10G, about
+$0.40/hour) in us-east-2, training 600 steps on 1,942 Dolly examples. After the first container
+had saved checkpoints, its VM was stopped from outside with `aws ec2 stop-instances`, which is how
+a spot interruption looks to AnyCloud. AnyCloud detected the interruption, started a replacement
+spot VM under the same Job ID, and restored the checkpoint bucket. The replacement logged
+`resumed from checkpoint at step 75 of 600`, trained the remaining 525 steps, exported the adapter,
+reloaded it into a fresh base model with an identical probe loss, and the Job completed. The
+whole run, including the interruption and recovery, cost an estimated $0.21.
+
+The first container had passed step 150 when it was stopped, but only the step 75 checkpoint had
+reached the bucket, so about 100 steps were trained again. AnyCloud copies the checkpoint
+directory about every 60 seconds, which bounds that loss. The
+[`validation receipt`](validation/aws-spot-2026-10-02.json) records the image, revisions, workload
+events, logs, and result.
+
 ## Run it
 
 Prepare the input files, upload them to an input bucket, and submit the Job. The input and
@@ -45,7 +62,7 @@ different bucket names.
 python validation/prepare_dolly.py ./input
 aws s3 cp --recursive ./input s3://YOUR-INPUT-BUCKET/
 
-anycloud job ghcr.io/anycloud-sh/qwen2.5-1.5b-dolly-lora@sha256:DIGEST \
+anycloud job ghcr.io/anycloud-sh/qwen2.5-1.5b-dolly-lora@sha256:84e70b815e3310b44f2c79218f9af9eba52ad1679a306c86182d9bb17ad7dc27 \
   --spot --credentials YOUR-AWS-CREDENTIALS --vm-type g5.xlarge --gpus all --disk-size 100 \
   --input-bucket YOUR-INPUT-BUCKET \
   --output-bucket YOUR-OUTPUT-BUCKET \

@@ -1,0 +1,137 @@
+{
+  "buckets": {
+    "checkpoint": "qwen-dolly-lora-ckpt-261002-2be3a0",
+    "input": "qwen-dolly-lora-in-261002-2be3a0",
+    "output": "qwen-dolly-lora-out-261002-2be3a0",
+    "region": "us-east-2"
+  },
+  "data": {
+    "dataset": "databricks/databricks-dolly-15k",
+    "dataset_revision": "bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a",
+    "license": "CC BY-SA 3.0",
+    "rows": 2000
+  },
+  "image": "ghcr.io/anycloud-sh/qwen2.5-1.5b-dolly-lora@sha256:84e70b815e3310b44f2c79218f9af9eba52ad1679a306c86182d9bb17ad7dc27",
+  "interruption": {
+    "first_container_log": [
+      "no checkpoint found; starting at step 0 of 600",
+      "checkpoint saved at step 75 (last checkpoint that reached the bucket)"
+    ],
+    "method": "aws ec2 stop-instances on the running spot instance, the mechanism AnyCloud's own recovery e2e test uses",
+    "replacement_container_log": [
+      "resumed from checkpoint at step 75 of 600",
+      "training complete; result written"
+    ],
+    "replacement_instance": "i-0f728576c4ea3b02c",
+    "steps_redone": "the first container had passed step 150 when stopped; checkpoints after step 75 had not yet been copied to the bucket",
+    "stopped_at": "2026-10-03T00:06:31Z",
+    "stopped_instance": "i-030d47bc730e36ab6"
+  },
+  "job": {
+    "cost_source": "estimated",
+    "estimated_cost_usd": 0.2069,
+    "final_state": "completed",
+    "gpu": "NVIDIA A10G",
+    "id": "dolly-lora-spot-261002",
+    "provider": "AWS",
+    "region": "us-east-2",
+    "spot": true,
+    "spot_price_per_hour_usd": 0.3956,
+    "vm_type": "g5.xlarge"
+  },
+  "result": "passed",
+  "result_json": {
+    "adapter_reload_verified": true,
+    "adapter_sha256": "b927e04df17f6fa76ea87e130b3e8167128277cccbdeb547a301e6c3255e0112",
+    "adapter_size_bytes": 68592358,
+    "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "dataset_sha256": "27d6473c94edd17c5cbd233432ac3a92e0f960e7c4ad58c071eaf71f1920ff42",
+    "example_count": 1942,
+    "loss_summary": {
+      "first_10_mean": 1.5674086034297943,
+      "last_10_mean": 1.3723784744739533
+    },
+    "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "probe_loss_reloaded": 0.6380018591880798,
+    "probe_loss_trained": 0.6380018591880798,
+    "resumed_from_step": 75,
+    "steps_trained_in_this_container": 525,
+    "total_steps": 600
+  },
+  "schema_version": 1,
+  "source_revision": "654b9d829eb48a00103a45def5f664663bdf4b02",
+  "validated_at": "2026-10-03T00:21:55Z",
+  "workload_events": [
+    {
+      "state": "provisioning"
+    },
+    {
+      "reason": "active-step-replay",
+      "state": "provisioning"
+    },
+    {
+      "diagnosis": "capacity-exhausted",
+      "state": "retrying"
+    },
+    {
+      "state": "queued"
+    },
+    {
+      "state": "provisioning"
+    },
+    {
+      "reason": "active-step-replay",
+      "state": "provisioning"
+    },
+    {
+      "state": "initializing"
+    },
+    {
+      "state": "downloading"
+    },
+    {
+      "state": "syncing"
+    },
+    {
+      "state": "starting"
+    },
+    {
+      "state": "running"
+    },
+    {
+      "reason": "preemption: attempting in-place VM restart",
+      "state": "recovering"
+    },
+    {
+      "state": "queued"
+    },
+    {
+      "state": "provisioning"
+    },
+    {
+      "reason": "active-step-replay",
+      "state": "provisioning"
+    },
+    {
+      "state": "initializing"
+    },
+    {
+      "state": "downloading"
+    },
+    {
+      "state": "syncing"
+    },
+    {
+      "state": "starting"
+    },
+    {
+      "state": "running"
+    },
+    {
+      "state": "finalizing"
+    },
+    {
+      "state": "completed"
+    }
+  ]
+}
